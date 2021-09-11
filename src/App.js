@@ -12,17 +12,18 @@ const initialFormState = {
 }
 
 const initialLoginState = {
-  username:''
+  username:'',password:''
 }
 
 function App() {
     
     const [formState, updateFormState] = useState(initialFormState)
-    const loginState = useState(initialLoginState)
+    const [loginState,updateLoginState] = useState(initialLoginState)
 
     function onChange(e){
         e.persist()
         updateFormState(() => ({...formState, [e.target.name]:e.target.value}))
+        updateLoginState(() => ({...loginState, [e.target.name]:e.target.value}))
     }
 
     const { formType } = formState
@@ -42,8 +43,9 @@ function App() {
     async function signIn(){
         const { username, password } = formState
         await Auth.signIn(username,password)
-        updateFormState(() => ({...formState, formType:'signedIn'}))
         updateFormState(() => ({...loginState, username:username}))
+        updateFormState(() => ({...formState, formType:'signedIn'}))
+        
     }
 
     async function goToSignUp(){
@@ -56,10 +58,11 @@ function App() {
             {
                 formType === 'signUp' && (
                     <div>
-                        <input name='username' onChange={ onChange } placeholder='username'/>
-                        <input name='password' type='password' onChange={ onChange } placeholder='password'/>
-                        <input name='name' onChange={ onChange } placeholder='name'/>
-                        <input name='address' onChange={ onChange } placeholder='address'/>
+                        <h1>Sign Up Page</h1>
+                        <input name='username' onChange={ onChange } placeholder='username'/><br></br><br></br>
+                        <input name='password' type='password' onChange={ onChange } placeholder='password'/><br></br><br></br>
+                        <input name='name' onChange={ onChange } placeholder='name'/><br></br><br></br>
+                        <input name='address' onChange={ onChange } placeholder='address'/><br></br><br></br>
                         <p>Select your Farm Type</p>
                         <input name='farm_type' type='radio' id='html1' value='indoor' onChange={ onChange } placeholder='farm_type'/>
                         <label for="html1">Indoor</label><br></br>
@@ -67,7 +70,11 @@ function App() {
                         <input name='farm_type' type='radio' id='html2' value='outdoor'onChange={ onChange } placeholder='farm_type'/>
                         <label for="html2">Outdoor</label><br></br>
 
+                        <br></br>
+
                         <input name='phone_number' onChange={ onChange } placeholder='phone_number'/>
+                        <br></br>
+                        <br></br>
                         <button onClick={signUp}>Sign Up</button>
                         
 
@@ -78,10 +85,11 @@ function App() {
             {
                 formType === 'signIn' && (
                     <div>
-                        <input name='username' onChange={ onChange } placeholder='username'/>
-                        <input name='password' type='password' onChange={ onChange } placeholder='password'/>
+                        <h1>Sign In Page</h1>
+                        <input name='username' onChange={ onChange } placeholder='username'/><br></br><br></br>
+                        <input name='password' type='password' onChange={ onChange } placeholder='password'/><br></br><br></br>
                         <button onClick={signIn}>Sign In</button>
-                        <br></br>
+                        <br></br><br></br>
                         <button onClick={goToSignUp}>Click here to Sign Up</button> 
 
                     </div>
@@ -92,6 +100,7 @@ function App() {
             {
                 formType === 'confirmSignUp' && (
                     <div>
+                        <h1>Enter Authentication Code</h1>
                         <input name='authCode' onChange={ onChange } placeholder='authCode'/>
                         <button onClick={confirmSignUp}>Verify</button>
 
@@ -108,9 +117,25 @@ function App() {
                 )
             }
 
+                        {
+                formType === 'regIn' && (
+                    <div>
+                        <input name='country_code' onChange={ onChange } placeholder='Country Code'/>
+                        <input name='region_code' onChange={ onChange } placeholder='Region Code'/>
+                        <input name='farm_size' onChange={ onChange } placeholder='Farm Size'/>
+                        <input name='plant_type' onChange={ onChange } placeholder='Plant Types to be monitored'/>
+                        <input name='other_things' onChange={ onChange } placeholder='Other Things'/>
+                        <input name='drone_robot_count' onChange={ onChange } placeholder='Number of Drones and Robots to be needed'/>
+                        <input name='waypoints' onChange={ onChange } placeholder='Waypoints'/>
+                        <input name='data_freq' onChange={ onChange } placeholder='Frequency of Data Monotoring'/>
+                        
+                        <button onClick={signIn}>Sign In</button>
+                        <br></br>
+                        <button onClick={goToSignUp}>Click here to Sign Up</button> 
 
-            
-
+                    </div>
+                )
+            }
 
         </div>
     )
