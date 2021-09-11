@@ -1,369 +1,24 @@
-// import React from "react";
-// import Amplify from "aws-amplify";
-// import awsconfig from "./aws-exports";
-// import './App.css'
-
-// import { AmplifyAuthenticator, AmplifySignUp, AmplifySignIn, AmplifySignOut } from '@aws-amplify/ui-react';
-
-
-// Amplify.configure(awsconfig);
-
-// const App = () => {
-//   return (
-//     <AmplifyAuthenticator>
-//       <AmplifySignUp
-//         slot="sign-up"
-//         formFields={[
-//           {
-//             type: "username",
-//             label: "Email",
-//             placeholder: "Enter Email",
-//             inputProps: { required: true, autocomplete: "email" }
-            
-//           },
-
-//           {
-//             type: "name",
-//             label: "Name",
-//             placeholder: "Enter Name",
-//             inputProps: { required: true, autocomplete: "name" }
-//           },
-
-//           {
-//             type: "password",
-//             label: "Password",
-//             placeholder: "Enter Password",
-//             inputProps: { required: true, autocomplete: "password" }
-//           },
-//           {
-//             type: "phone_number",
-//             label: "Phone Number",
-//             placeholder: "Enter Phone Number",
-//             inputProps: { required: true, autocomplete: "phone_number" }
-//           },
-
-//           {
-//             type: "address",
-//             label: "Address",
-//             placeholder: "Enter Address",
-//             inputProps: { required: true, autocomplete: "address" }
-//           },
-//           {
-//             type: "custom:farm_type",
-//             label: "Farm Type",
-//             placeholder: "Enter Farm Type",
-//             inputProps: { required: true }
-//           }
-//         ]} 
-//       />
-
-//       <AmplifySignIn slot="sign-in" formFields={[
-//           {
-//             type: "username",
-//             label: "Email Address",
-//             placeholder: "Enter Email Address",
-//             inputProps: { required: true, autocomplete: "email" }
-            
-//           },
-//           {
-//             type: "password",
-//             label: "Password",
-//             placeholder: "Enter Password",
-//             inputProps: { required: true, autocomplete: "password" }
-//           }
-//         ]} />
-
-//       <div className="App">
-//        <header className="App-header">
-//         <h2>Welcome to Cosmosnets</h2>
-//         <AmplifySignOut />
-//        </header>
-//      </div>
-    
-//     </AmplifyAuthenticator>
-    
-//   );
-// };
-
-// export default App;
-
-
-
-// import React, { useEffect, useState } from 'react';
-// import './App.css'
-// import Amplify, { Auth, Hub } from 'aws-amplify';
-// import awsconfig from './aws-exports';
-
-// Amplify.configure(awsconfig);
-
-// function App() {
-//   const [user, setUser] = useState(null);
-
-//   useEffect(() => {
-//     Hub.listen('auth', ({ payload: { event, data } }) => {
-//       switch (event) {
-//         case 'signIn':
-//         case 'cognitoHostedUI':
-//           getUser().then(userData => setUser(userData));
-//           break;
-//         case 'signOut':
-//           setUser(null);
-//           break;
-//         case 'signIn_failure':
-//         case 'cognitoHostedUI_failure':
-//           console.log('Sign in failure', data);
-//           break;
-//       }
-//     });
-
-//     getUser().then(userData => setUser(userData));
-//   }, []);
-
-//   function getUser() {
-//     return Auth.currentAuthenticatedUser()
-//       .then(userData => userData)
-//       .catch(() => console.log('Not signed in'));
-//   }
-
-//   return (
-//     <div className="App">
-//       <header className = "App-header">
-//       <p>User: {user ? JSON.stringify(user.attributes) : 'None'}</p>
-//       {user ? (
-//         <button className = "button" onClick={() => Auth.signOut()}><span>Sign Out</span></button>
-//       ) : (
-//         <button className = "button" onClick={() => Auth.federatedSignIn()}><span>Sign In</span></button>
-//       )}
-//       </header> 
-//     </div>
-//   );
-// }
-
-// export default App;
-
-
-// import Amplify from 'aws-amplify';
-// import config from './aws-exports';
-
-// import React from 'react';
-// import logo from './logo.svg';
-// import './App.css';
-// import { Auth } from 'aws-amplify';
-
-
-
-// Amplify.configure(config);
-
-
-// function App(props) {
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <img src={logo} className="App-logo" alt="logo" />
-//         <p>
-//           Edit <code>src/App.js</code> and save to reload.
-//         </p>
-//         <button onClick={() => Auth.federatedSignIn()}>Sign In</button>
-//       </header>
-//     </div>
-//   )
-// }
-
-// export default App
-
-
-
-// import React from "react";
-// import Amplify from "aws-amplify";
-// import awsconfig from "./aws-exports";
-// import './App.css'
-
-// import { AmplifyAuthenticator, AmplifySignUp, AmplifySignIn, AmplifySignOut } from '@aws-amplify/ui-react';
-
-
-// Amplify.configure(awsconfig);
-
-// const App = () => {
-//   return (
-//     <AmplifyAuthenticator>
-//       <AmplifySignUp
-//         slot="sign-up"
-//         formFields={[
-//           {
-//             type: "username",
-//             label: "Email",
-//             placeholder: "Enter Email",
-//             inputProps: { required: true, autocomplete: "email" }
-            
-//           },
-
-//           {
-//             type: "name",
-//             label: "Name",
-//             placeholder: "Enter Name",
-//             inputProps: { required: true, autocomplete: "name" }
-//           },
-
-//           {
-//             type: "password",
-//             label: "Password",
-//             placeholder: "Enter Password",
-//             inputProps: { required: true, autocomplete: "password" }
-//           },
-//           {
-//             type: "phone_number",
-//             label: "Phone Number",
-//             placeholder: "Enter Phone Number",
-//             inputProps: { required: true, autocomplete: "phone_number" }
-//           },
-
-//           {
-//             type: "address",
-//             label: "Address",
-//             placeholder: "Enter Address",
-//             inputProps: { required: true, autocomplete: "address" }
-//           },
-//           {
-//             type: "custom:farm_type",
-//             label: "Farm Type",
-//             placeholder: "Enter Farm Type",
-//             inputProps: { required: true }
-//           }
-//         ]} 
-//       />
-
-//       <AmplifySignIn slot="sign-in" formFields={[
-//           {
-//             type: "username",
-//             label: "Email Address",
-//             placeholder: "Enter Email Address",
-//             inputProps: { required: true, autocomplete: "email" }
-            
-//           },
-//           {
-//             type: "password",
-//             label: "Password",
-//             placeholder: "Enter Password",
-//             inputProps: { required: true, autocomplete: "password" }
-//           }
-//         ]} />
-
-//       <div className="App">
-//        <header className="App-header">
-//         <h2>Welcome to Cosmosnets</h2>
-//         <AmplifySignOut />
-//        </header>
-//      </div>
-    
-//     </AmplifyAuthenticator>
-    
-//   );
-// };
-
-// export default App;
-
-
-
-// import React, { useEffect, useState } from 'react';
-// import './App.css'
-// import Amplify, { Auth, Hub } from 'aws-amplify';
-// import awsconfig from './aws-exports';
-
-// Amplify.configure(awsconfig);
-
-// function App() {
-//   const [user, setUser] = useState(null);
-
-//   useEffect(() => {
-//     Hub.listen('auth', ({ payload: { event, data } }) => {
-//       switch (event) {
-//         case 'signIn':
-//         case 'cognitoHostedUI':
-//           getUser().then(userData => setUser(userData));
-//           break;
-//         case 'signOut':
-//           setUser(null);
-//           break;
-//         case 'signIn_failure':
-//         case 'cognitoHostedUI_failure':
-//           console.log('Sign in failure', data);
-//           break;
-//       }
-//     });
-
-//     getUser().then(userData => setUser(userData));
-//   }, []);
-
-//   function getUser() {
-//     return Auth.currentAuthenticatedUser()
-//       .then(userData => userData)
-//       .catch(() => console.log('Not signed in'));
-//   }
-
-//   return (
-//     <div className="App">
-//       <header className = "App-header">
-//       <p>User: {user ? JSON.stringify(user.attributes) : 'None'}</p>
-//       {user ? (
-//         <button className = "button" onClick={() => Auth.signOut()}><span>Sign Out</span></button>
-//       ) : (
-//         <button className = "button" onClick={() => Auth.federatedSignIn()}><span>Sign In</span></button>
-//       )}
-//       </header> 
-//     </div>
-//   );
-// }
-
-// export default App;
-
-
-// import Amplify from 'aws-amplify';
-// import config from './aws-exports';
-
-// import React from 'react';
-// import logo from './logo.svg';
-// import './App.css';
-// import { Auth } from 'aws-amplify';
-
-
-
-// Amplify.configure(config);
-
-
-// function App(props) {
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <img src={logo} className="App-logo" alt="logo" />
-//         <p>
-//           Edit <code>src/App.js</code> and save to reload.
-//         </p>
-//         <button onClick={() => Auth.federatedSignIn()}>Sign In</button>
-//       </header>
-//     </div>
-//   )
-// }
-
-// export default App
-
-
-
 import Amplify from 'aws-amplify';
 import config from './aws-exports';
 
 import React , { useState, useEffect } from 'react';
 import './App.css';
-import { Auth, Hub } from 'aws-amplify';
+import { Auth } from 'aws-amplify';
 
 Amplify.configure(config)
 
 const initialFormState = {
-    username:'', password:'',name:'chait',phone_number:'9999999999',address:'ena',farm_type:'indoor',authCode:'',formType:'signUp'
+    username:'', password:'',name:'',phone_number:'',address:'',farm_type:'',authCode:'',formType:'signIn'
+}
+
+const initialLoginState = {
+  username:''
 }
 
 function App() {
     
     const [formState, updateFormState] = useState(initialFormState)
+    const loginState = useState(initialLoginState)
 
     function onChange(e){
         e.persist()
@@ -388,6 +43,11 @@ function App() {
         const { username, password } = formState
         await Auth.signIn(username,password)
         updateFormState(() => ({...formState, formType:'signedIn'}))
+        updateFormState(() => ({...loginState, username:username}))
+    }
+
+    async function goToSignUp(){
+      updateFormState(() => ({...formState, formType:'signUp'}))
     }
 
 
@@ -400,7 +60,13 @@ function App() {
                         <input name='password' type='password' onChange={ onChange } placeholder='password'/>
                         <input name='name' onChange={ onChange } placeholder='name'/>
                         <input name='address' onChange={ onChange } placeholder='address'/>
-                        <input name='farm_type' onChange={ onChange } placeholder='farm_type'/>
+                        <p>Select your Farm Type</p>
+                        <input name='farm_type' type='radio' id='html1' value='indoor' onChange={ onChange } placeholder='farm_type'/>
+                        <label for="html1">Indoor</label><br></br>
+
+                        <input name='farm_type' type='radio' id='html2' value='outdoor'onChange={ onChange } placeholder='farm_type'/>
+                        <label for="html2">Outdoor</label><br></br>
+
                         <input name='phone_number' onChange={ onChange } placeholder='phone_number'/>
                         <button onClick={signUp}>Sign Up</button>
                         
@@ -415,6 +81,8 @@ function App() {
                         <input name='username' onChange={ onChange } placeholder='username'/>
                         <input name='password' type='password' onChange={ onChange } placeholder='password'/>
                         <button onClick={signIn}>Sign In</button>
+                        <br></br>
+                        <button onClick={goToSignUp}>Click here to Sign Up</button> 
 
                     </div>
                 )
@@ -435,7 +103,7 @@ function App() {
             {
                 formType === 'signedIn' && (
                     <div>
-                        <h1>Welcome to Cosmosnets</h1>
+                        <h1>Welcome to Cosmosnets, {loginState.username}</h1>
                     </div>
                 )
             }
