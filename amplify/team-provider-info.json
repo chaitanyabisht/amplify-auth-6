@@ -1,0 +1,20 @@
+{
+  "staging": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-cosmosnetamplify-staging-90114-authRole",
+      "UnauthRoleArn": "arn:aws:iam::022796499078:role/amplify-cosmosnetamplify-staging-90114-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::022796499078:role/amplify-cosmosnetamplify-staging-90114-authRole",
+      "Region": "ap-south-1",
+      "DeploymentBucketName": "amplify-cosmosnetamplify-staging-90114-deployment",
+      "UnauthRoleName": "amplify-cosmosnetamplify-staging-90114-unauthRole",
+      "StackName": "amplify-cosmosnetamplify-staging-90114",
+      "StackId": "arn:aws:cloudformation:ap-south-1:022796499078:stack/amplify-cosmosnetamplify-staging-90114/d1ae1810-12de-11ec-b614-02ac903fd112",
+      "AmplifyAppId": "dmph5erldvqpe"
+    },
+    "categories": {
+      "auth": {
+        "cosmosnetamplify": {}
+      }
+    }
+  }
+}
