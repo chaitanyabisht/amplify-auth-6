@@ -84,13 +84,13 @@ function App() {
 
             {
                 formType === 'signIn' && (
-                    <div>
-                        <h1>Sign In Page</h1>
+                    <div className='form'>
+                        <h1>Sign In Page</h1><br></br>
                         <input name='username' onChange={ onChange } placeholder='username'/><br></br><br></br>
                         <input name='password' type='password' onChange={ onChange } placeholder='password'/><br></br><br></br>
-                        <button onClick={signIn}>Sign In</button>
+                        <button className='button' onClick={signIn}><span>Sign In</span></button>
                         <br></br><br></br>
-                        <button onClick={goToSignUp}>Click here to Sign Up</button> 
+                        <button className='button' onClick={goToSignUp}><span>Click here to Sign Up</span></button> 
 
                     </div>
                 )
