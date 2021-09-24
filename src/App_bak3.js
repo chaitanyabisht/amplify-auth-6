@@ -11,7 +11,7 @@ const initialFormState = {
     username:'', password:'',name:'',phone_number:'',address:'',farm_type:'',farm_location:'TBS',farm_id:'TBS',plant_types:'TBS',
     other_types:'TBS',drone_qty:'TBS',waypoints_qty:'TBS',data_monitor_qty:'TBS',reg_complete:'false'
     
-    ,authCode:'',OTP:'',formType:'signIn'
+    ,authCode:'',formType:'signIn'
 }
 
 
@@ -67,14 +67,6 @@ function App() {
     async function confirmSignUp(){
         const { username, authCode } = formState
         await Auth.confirmSignUp(username,authCode)
-        updateFormState(() => ({...formState, formType:'verifyPhone'}))
-    }
-
-    async function verifyPhone(){
-        const {username, password,OTP} = formState
-        await Auth.signIn(username,password)
-        await Auth.verifyCurrentUserAttribute('phone_number')
-        await Auth.verifyCurrentUserAttributeSubmit('phone_number',OTP)
         updateFormState(() => ({...formState, formType:'regIn'}))
     }
 
@@ -152,24 +144,14 @@ function App() {
             {
                 formType === 'confirmSignUp' && (
                     <div>
-                        <h1>Enter Authentication Code sent to your email</h1>
+                        <h1>Enter Authentication Code</h1>
                         <input name='authCode' onChange={ onChange } placeholder='authCode'/>
                         <button onClick={confirmSignUp}>Verify</button>
 
                     </div>
                 )
             }
-            
-            {
-                formType === 'verifyPhone' && (
-                    <div>
-                        <h1>Enter Authentication Code sent to your Phone</h1>
-                        <input name='authCode' onChange={ onChange } placeholder='authCode'/>
-                        <button onClick={verifyPhone}>Verify</button>
 
-                    </div>
-                )
-            }
 
             {
                 formType === 'signedIn' && (
