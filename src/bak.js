@@ -154,7 +154,7 @@ function App() {
             {
                 formType === 'confirmSignUp' && (
                     <div className='form'>
-                        <h1 className='signIn'>Enter Authentication Code sent to your email</h1>
+                        <h1>Enter Authentication Code sent to your email</h1>
                         <input name='authCode' onChange={ onChange } placeholder='authCode'/>
                         <button onClick={confirmSignUp}>Verify</button>
 
@@ -165,7 +165,7 @@ function App() {
             {
                 formType === 'verifyPhone' && (
                     <div className='form'>
-                        <h1 className='signIn'>Enter Authentication Code sent to your Phone</h1>
+                        <h1>Enter Authentication Code sent to your Phone</h1>
                         <input name='OTP' onChange={ onChange } placeholder='OTP'/>
                         <button onClick={verifyPhone}>Verify</button>
 
@@ -176,7 +176,7 @@ function App() {
             {
                 formType === 'signedIn' && (
                     <div className='form'>
-                        <h1 className='signIn'>Welcome to Cosmosnets, {user['attributes']['name']}</h1>
+                        <h1>Welcome to Cosmosnets, {user['attributes']['name']}</h1>
                         <br></br>
                         <button onClick = {
                             () => Auth.signOut()
