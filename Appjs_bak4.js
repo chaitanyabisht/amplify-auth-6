@@ -1,4 +1,4 @@
-import {Amplify, Hub } from 'aws-amplify';
+import { Amplify, Hub } from 'aws-amplify';
 import config from './aws-exports';
 
 import React , { useState, useEffect } from 'react';
@@ -11,7 +11,7 @@ const initialFormState = {
     username:'', password:'',name:'',phone_number:'',address:'',farm_type:'',farm_location:'TBS',farm_id:'TBS',plant_types:'TBS',
     other_types:'TBS',drone_qty:'TBS',waypoints_qty:'TBS',data_monitor_qty:'TBS',reg_complete:'false'
     
-    ,authCode:'',formType:'signIn'
+    ,authCode:'',OTP:'',formType:'signIn'
 }
 
 
@@ -65,18 +65,28 @@ function App() {
     }
 
     async function confirmSignUp(){
-        const { username, authCode } = formState
+        const { username,password,authCode } = formState
         await Auth.confirmSignUp(username,authCode)
+        await Auth.signIn(username,password)
+        await Auth.verifyCurrentUserAttribute('phone_number')
+        updateFormState(() => ({...formState, formType:'verifyPhone'}))
+    }
+
+    async function verifyPhone(){
+        const {username, password,OTP} = formState
+        await Auth.signIn(username,password)
+        console.log(OTP)
+        await Auth.verifyCurrentUserAttributeSubmit('phone_number',OTP)
         updateFormState(() => ({...formState, formType:'regIn'}))
     }
 
     async function signIn(){
         const { username, password } = formState
         const user = await Auth.signIn(username,password)
-        if (user['attributes']['custom:reg_complete'] === 'false'){
-            updateFormState(() => ({...formState, formType:'regIn'}))
-        }else{
+        if (user['attributes']['custom:reg_complete'] === 'true'){
             updateFormState(() => ({...formState, formType:'signedIn'}))
+        }else{
+            updateFormState(() => ({...formState, formType:'regIn'}))
             console.log(user)
         }
 
@@ -99,19 +109,20 @@ function App() {
         <div className="App">
             {
                 formType === 'signUp' && (
-                    <div>
-                        <h1>Sign Up Page</h1>
+                    <div className='form'>
+                        <h1 className='signIn'>Sign Up Page</h1>
                         <input name='username' onChange={ onChange } placeholder='username'/><br></br><br></br>
                         <input name='password' type='password' onChange={ onChange } placeholder='password'/><br></br><br></br>
                         <input name='name' onChange={ onChange } placeholder='name'/><br></br><br></br>
                         <input name='address' onChange={ onChange } placeholder='address'/><br></br><br></br>
-                        <p>Select your Farm Type</p>
+                        <p align='left'>Select your Farm Type</p>
+                        <div className='radio'>
                         <input name='farm_type' type='radio' id='html1' value='indoor' onChange={ onChange } placeholder='farm_type'/>
-                        <label for="html1">Indoor</label><br></br>
-
+                        <label for="html1">Indoor</label>
                         <input name='farm_type' type='radio' id='html2' value='outdoor'onChange={ onChange } placeholder='farm_type'/>
                         <label for="html2">Outdoor</label><br></br>
-
+                        </div>
+                        
                         <br></br>
 
                         <input name='phone_number' onChange={ onChange } placeholder='phone_number'/>
@@ -127,14 +138,13 @@ function App() {
             {
                 formType === 'signIn' && (
                     <div className='form'>
-                        <h1>Sign In Page</h1><br></br>
-                        <input name='username' onChange={ onChange } placeholder='username'/><br></br><br></br>
-                        <input name='password' type='password' onChange={ onChange } placeholder='password'/><br></br><br></br>
+                        <h1 className='signIn'>Sign In Page</h1><br></br>
+                        <input name='username' onChange={ onChange } placeholder='Email'/><br></br><br></br>
+                        <input name='password' type='password' onChange={ onChange } placeholder='Password'/><br></br><br></br>
                         <button className='button' onClick={signIn}><span>Sign In</span></button>
                         <br></br><br></br>
-                        <button className='button' onClick={goToSignUp}><span>Click here to Sign Up</span></button>
+                        <a className='link' onClick={goToSignUp}><span>Click here to Sign Up</span></a>
                         <br></br>
-                        {/* <button onClick={() => window.location = 'http://localhost:3001/showDetails'}> Show Details </button> */}
 
                     </div>
                 )
@@ -143,20 +153,30 @@ function App() {
 
             {
                 formType === 'confirmSignUp' && (
-                    <div>
-                        <h1>Enter Authentication Code</h1>
+                    <div className='form'>
+                        <h1 className='signIn'>Enter Authentication Code sent to your email</h1>
                         <input name='authCode' onChange={ onChange } placeholder='authCode'/>
                         <button onClick={confirmSignUp}>Verify</button>
 
                     </div>
                 )
             }
+            
+            {
+                formType === 'verifyPhone' && (
+                    <div className='form'>
+                        <h1 className='signIn'>Enter Authentication Code sent to your Phone</h1>
+                        <input name='OTP' onChange={ onChange } placeholder='OTP'/>
+                        <button onClick={verifyPhone}>Verify</button>
 
+                    </div>
+                )
+            }
 
             {
                 formType === 'signedIn' && (
-                    <div>
-                        <h1>Welcome to Cosmosnets, {user['attributes']['name']}</h1>
+                    <div className='form'>
+                        <h1 className='signIn'>Welcome to Cosmosnets, {user['attributes']['name']}</h1>
                         <br></br>
                         <button onClick = {
                             () => Auth.signOut()
@@ -167,11 +187,11 @@ function App() {
 
                         {
                 formType === 'regIn' && (
-                    <div>
+                    <div className='form'>
                         {/* <input name='country_code' onChange={ onChange } placeholder='Country Code'/>
                         <input name='region_code' onChange={ onChange } placeholder='Region Code'/>
                         <input name='company_name' onChange={ onChange } placeholder='Company Name'/> */}
-                        <h1>Please enter the following details to complete registration</h1><br></br>
+                        <h1 className='signIn'>Please enter the following details to complete registration</h1><br></br>
                         <input name='farm_location' onChange={ onChange } placeholder='Farm Location'/>
                         <input name='farm_size' onChange={ onChange } placeholder='Farm Size'/>
                         <input name='plant_type' onChange={ onChange } placeholder='Plant Types to be monitored'/>
