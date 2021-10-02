@@ -1,6 +1,6 @@
 import { Amplify, Hub } from 'aws-amplify';
 import config from './aws-exports';
-
+import PhoneInput from 'react-phone-number-input';
 import React , { useState, useEffect } from 'react';
 import './App.css';
 import { Auth } from 'aws-amplify';
@@ -20,6 +20,7 @@ function App() {
     const [formState, updateFormState] = useState(initialFormState)
 
     const [user, updateUser] = useState(null)
+    const [value, setValue] = useState()
 
     useEffect(() => {
         checkUser()
@@ -125,7 +126,7 @@ function App() {
                         
                         <br></br>
 
-                        <input name='phone_number' onChange={ onChange } placeholder='phone_number'/>
+                        <PhoneInput placeholder="Enter phone number" input name='phone_number' value={value} onChange={ setValue } />
                         <br></br>
                         <br></br>
                         <button onClick={signUp}>Sign Up</button>
