@@ -1,6 +1,7 @@
 import { Amplify, Hub } from 'aws-amplify';
 import config from './aws-exports';
 import PhoneInput from 'react-phone-number-input';
+import 'react-phone-number-input/style.css';
 import React , { useState, useEffect } from 'react';
 import './App.css';
 import { Auth } from 'aws-amplify';
