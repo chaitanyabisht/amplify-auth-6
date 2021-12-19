@@ -1,17 +1,19 @@
 import { Amplify, Hub } from 'aws-amplify';
 import config from './aws-exports';
-
+import PhoneInput from 'react-phone-number-input';
+import 'react-phone-number-input/style.css';
 import React , { useState, useEffect } from 'react';
 import './App.css';
 import { Auth } from 'aws-amplify';
+import { func } from 'prop-types';
 
 Amplify.configure(config)
 
 const initialFormState = {
-    username:'', password:'',name:'',phone_number:'',address:'',farm_type:'',farm_location:'TBS',farm_id:'TBS',plant_types:'TBS',
+    username:'', password:'',name:'',phone_number:'+919999999999',address:'',farm_type:'',farm_location:'TBS',farm_id:'TBS',plant_types:'TBS',
     other_types:'TBS',drone_qty:'TBS',waypoints_qty:'TBS',data_monitor_qty:'TBS',reg_complete:'false'
     
-    ,authCode:'',OTP:'',formType:'signIn'
+    ,authCode:'',OTP:'',formType:'signIn',new_password:''
 }
 
 
@@ -20,6 +22,7 @@ function App() {
     const [formState, updateFormState] = useState(initialFormState)
 
     const [user, updateUser] = useState(null)
+    const [value, setValue] = useState()
 
     useEffect(() => {
         checkUser()
@@ -47,7 +50,7 @@ function App() {
             console.log('user',user)
             updateFormState(() => ({...formState, formType:'signedIn'}))
         }catch (err){
-            console.log('err')
+            console.log('User not signed in')
         }
     }
 
@@ -68,8 +71,8 @@ function App() {
         const { username,password,authCode } = formState
         await Auth.confirmSignUp(username,authCode)
         await Auth.signIn(username,password)
-        await Auth.verifyCurrentUserAttribute('phone_number')
-        updateFormState(() => ({...formState, formType:'verifyPhone'}))
+        //await Auth.verifyCurrentUserAttribute('phone_number')
+        updateFormState(() => ({...formState, formType:'regIn'}))   //CHANGE IT BACK TO verifyPhone
     }
 
     async function verifyPhone(){
@@ -104,7 +107,19 @@ function App() {
         updateFormState(() => ({...formState, formType:'signedIn',reg_complete:'true'}))
     }
 
+    async function goToUpdateDetails(){
+        updateFormState(() => ({...formState, formType:'updateDetails'}))
+    }
 
+    async function updateDetails(){
+        const {new_password,password} = formState
+        const user = await Auth.currentAuthenticatedUser();
+        await Auth.changePassword(user,password,new_password);
+        updateFormState(() => ({...formState, formType:'signIn'}))
+    }
+
+    console.log(formState.formType)
+    console.log(formState.phone_number)
     return (
         <div className="App">
             {
@@ -125,7 +140,8 @@ function App() {
                         
                         <br></br>
 
-                        <input name='phone_number' onChange={ onChange } placeholder='phone_number'/>
+                        <PhoneInput placeholder="Enter phone number" value={value} onChange={ setValue } />
+
                         <br></br>
                         <br></br>
                         <button onClick={signUp}>Sign Up</button>
@@ -181,6 +197,8 @@ function App() {
                         <button onClick = {
                             () => Auth.signOut()
                         }>Sign Out</button>
+                        <br></br><br></br>
+                        <a className='link' onClick={goToUpdateDetails}><span>Update Details</span></a>
                     </div>
                 )
             }
@@ -206,6 +224,20 @@ function App() {
                     </div>
                 )
             }
+            {
+                formType === 'updateDetails' && (
+                    <div className='form'>
+                        <h1 className='signIn'>Update Details</h1>
+                        {/* <h2>Leave the field blank if you don't want to update that</h2> */}
+                        <br></br>  
+                        <input name='password' onChange={ onChange } type='password' placeholder='Enter Old Password'/>
+                        <input name='new_password' onChange={ onChange } type='password' placeholder='Enter New Password'/>
+                        <button onClick={updateDetails}>Update</button>
+                        {/* type='password' */}
+                    </div>
+                )
+            }
+        
 
         </div>
     )
